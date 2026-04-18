@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GALRYX — You dream, we build.</title>
+<meta name="description" content="Galryx is a full-service IT studio — we design, develop, secure, host, and maintain the software that runs your business." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F1;
+    --bg-soft: #FFFFFF;
+    --bg-deep: #0E0E0E;
+    --ink: #141413;
+    --ink-2: #4A4A47;
+    --ink-3: #8A8A85;
+    --line: #E6E2D8;
+    --line-dark: #272727;
+    --accent: #FF4A1C;
+    --accent-2: #FF7A4A;
+    --sans: 'Geist', -apple-system, 'Helvetica Neue', sans-serif;
+    --display: 'Archivo', -apple-system, 'Helvetica Neue', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  ::selection { background: var(--accent); color: #fff; }
+  img, svg { display: block; }
+
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width: 720px) { .container { padding: 0 20px; } }
+
+  .display { font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; line-height: 0.95; }
+  .ital-accent { font-style: italic; color: var(--accent); font-family: 'Archivo', serif; font-weight: 800; }
+
+  /* Coral round button */
+  .rbtn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 8px 22px 8px 8px;
+    background: transparent;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    transition: color .15s;
+  }
+  .rbtn .circle {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: grid; place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+    transition: transform .2s, background .15s;
+  }
+  .rbtn:hover .circle { transform: rotate(-30deg); }
+  .rbtn.light { color: #fff; }
+
+  /* -------- LOGO -------- */
+  .galryx-logo {
+    display: inline-flex; align-items: center; gap: 0; line-height: 1;
+  }
+  .galryx-logo .gbox {
+    background: var(--accent);
+    display: grid; place-items: center;
+    border-radius: 6px;
+  }
+  .galryx-logo .g {
+    font-family: var(--display);
+    font-weight: 900;
+    color: #141413;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    transform: translateY(-2%);
+  }
+  .galryx-logo .word {
+    font-family: var(--display);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .galryx-logo .word .x { color: var(--accent); }
+  .galryx-logo.size-nav .gbox { width: 34px; height: 34px; margin-right: 1px; }
+  .galryx-logo.size-nav .g { font-size: 25px; }
+  .galryx-logo.size-nav .word { font-size: 24px; }
+
+  /* -------- NAV -------- */
+  nav.top {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in oklab, var(--bg) 90%, transparent);
+    backdrop-filter: saturate(150%) blur(10px);
+    -webkit-backdrop-filter: saturate(150%) blur(10px);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 0;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--ink);
+  }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--ink);
+    position: relative;
+    transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 22px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background .15s, transform .15s;
+  }
+  .nav-cta:hover { background: var(--ink); transform: translateY(-1px); }
+  .nav-cta svg { transition: transform .15s; }
+  .nav-cta:hover svg { transform: translateX(2px); }
+  @media (max-width: 900px) { .nav-links { display: none; } }
+
+  /* -------- HERO -------- */
+  .hero { padding: 40px 0 56px; position: relative; }
+  .hero-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: end;
+    margin-bottom: 36px;
+  }
+  .hero-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(48px, 8.4vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .hero-title .line { display: block; }
+  .hero-title em {
+    font-style: italic;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: 'Archivo', serif;
+  }
+  .hero-right { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; max-width: 320px; padding-bottom: 8px; }
+  .hero-sub {
+    font-size: 15px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 30ch;
+  }
+  .hero-sub b { color: var(--ink); font-weight: 600; }
+  @media (max-width: 900px) {
+    .hero-top { grid-template-columns: 1fr; align-items: start; }
+    .hero-right { max-width: 100%; }
+  }
+
+  /* scroll marker on left */
+  .scroll-rail {
+    position: absolute; left: 16px; top: 180px;
+    writing-mode: vertical-rl;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .scroll-rail::after {
+    content: ""; display: block; width: 1px; height: 40px;
+    background: linear-gradient(var(--accent), transparent);
+  }
+  @media (max-width: 900px) { .scroll-rail { display: none; } }
+
+  /* -------- HERO VISUAL -------- */
+  .hero-visual {
+    background: var(--bg-deep);
+    border-radius: 18px;
+    padding: 80px 24px;
+    aspect-ratio: 24/9;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+  @media (max-width: 900px) { .hero-visual { aspect-ratio: 4/3; padding: 40px 16px; } }
+  .glow {
+    width: 46%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 45%, #FFB68A 0%, #FF6B36 30%, #C73A14 60%, #2C0A04 95%);
+    box-shadow: 0 0 140px 40px rgba(255,106,52,0.35);
+    position: relative;
+    display: grid; place-items: center;
+  }
+  .glow::before {
+    content: ""; position: absolute; inset: -18%;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 50%;
+  }
+  .glow::after {
+    content: ""; position: absolute; inset: -36%;
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .play-btn {
+    width: 84px; height: 84px;
+    border-radius: 50%;
+    background: rgba(20, 8, 4, 0.6);
+    backdrop-filter: blur(10px);
+    display: grid; place-items: center;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border: 1px solid rgba(255,255,255,0.18);
+    transition: transform .2s, background .2s;
+    cursor: pointer;
+    z-index: 2;
+  }
+  .play-btn:hover { transform: scale(1.06); background: rgba(20, 8, 4, 0.8); }
+
+  .hero-visual-meta {
+    position: absolute; left: 32px; bottom: 28px;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    display: flex; gap: 24px; align-items: center;
+  }
+  .hero-visual-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); display: inline-block; margin-right: 10px; }
+  .hero-visual-meta-right {
+    position: absolute; right: 32px; bottom: 28px;
+    font-size: 11.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.55);
+    font-family: var(--display);
+  }
+
+  /* -------- CLIENT LOGOS -------- */
+  .logos {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 32px;
+    padding: 32px 0;
+    margin-top: 48px;
+  }
+  .logo-item {
+    display: flex; align-items: center; gap: 10px;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    opacity: 0.7;
+    transition: opacity .2s;
+  }
+  .logo-item:hover { opacity: 1; }
+  .logo-item .mk {
+    width: 24px; height: 24px;
+    display: grid; place-items: center;
+    color: var(--ink);
+  }
+  .logo-item .sub { font-family: var(--sans); font-weight: 400; font-size: 9px; color: var(--ink-3); letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-top: 2px; }
+  .logo-item .text { display: flex; flex-direction: column; line-height: 1; }
+  .logo-item.italic { font-family: 'Archivo', serif; font-style: italic; font-weight: 600; }
+  @media (max-width: 900px) {
+    .logos { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .logo-item .sub { display: none; }
+  }
+
+  /* -------- SECTION -------- */
+  section.block { padding: 96px 0; }
+  section.block.dark { background: var(--bg-deep); color: #fff; }
+  .block-head {
+    display: flex; justify-content: space-between; align-items: end;
+    margin-bottom: 48px;
+    gap: 24px; flex-wrap: wrap;
+  }
+  .block-kicker {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .block-kicker::before { content: "// "; }
+  h2.block-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(36px, 5.5vw, 68px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: inherit;
+    text-transform: uppercase;
+  }
+  .dark h2.block-title { color: #fff; }
+  .block-arrows { display: flex; gap: 8px; }
+  .arrow-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--line);
+    display: grid; place-items: center;
+    color: var(--ink);
+    transition: all .15s;
+  }
+  .arrow-btn:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .dark .arrow-btn { border-color: var(--line-dark); color: #fff; }
+  .dark .arrow-btn:hover { background: var(--accent); border-color: var(--accent); }
+
+  /* -------- WHO WE ARE -------- */
+  .who-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+  @media (max-width: 900px) { .who-grid { grid-template-columns: 1fr; } }
+  .who-lede {
+    font-size: 20px;
+    color: var(--ink-2);
+    line-height: 1.5;
+    max-width: 44ch;
+    text-wrap: pretty;
+  }
+  .who-lede b { color: var(--ink); font-weight: 600; }
+  .who-list {
+    display: flex; flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+  .who-row {
+    display: grid;
+    grid-template-columns: 40px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    padding: 18px 4px;
+    border-bottom: 1px solid var(--line);
+  }
+  .who-row .n { font-family: var(--display); font-weight: 700; color: var(--accent); font-size: 13px; }
+  .who-row .t { font-family: var(--display); font-weight: 800; font-size: 20px; text-transform: uppercase; letter-spacing: -0.01em; }
+  .who-row .d { font-size: 13px; color: var(--ink-3); }
+
+  /* -------- PROCESS (horizontal flow) -------- */
+  .process-section { padding: 96px 0; background: var(--bg-deep); color: #fff; }
+  .process-head { margin-bottom: 48px; }
+  .process-head h2 { color: #fff; }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line-dark);
+  }
+  @media (max-width: 900px) { .process-grid { grid-template-columns: 1fr; } }
+  .pstep {
+    padding: 32px 24px 32px 0;
+    border-right: 1px solid var(--line-dark);
+    display: flex; flex-direction: column; gap: 16px;
+    min-height: 260px;
+    position: relative;
+    transition: background .2s;
+  }
+  .pstep:first-child { padding-left: 0; }
+  .pstep:not(:first-child) { padding-left: 24px; }
+  .pstep:last-child { border-right: 0; }
+  @media (max-width: 900px) {
+    .pstep { border-right: 0; border-bottom: 1px solid var(--line-dark); padding: 24px 0; min-height: auto; }
+    .pstep:not(:first-child) { padding-left: 0; }
+  }
+  .pstep-icon {
+    width: 48px; height: 48px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-dark);
+    border-radius: 12px;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .pstep .n { font-family: var(--display); font-weight: 700; color: var(--accent); font-size: 13px; letter-spacing: 0.06em; }
+  .pstep h4 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .pstep p { font-size: 13.5px; color: #B0B0AC; line-height: 1.55; }
+  .pstep-arrow {
+    position: absolute; right: -7px; top: 44px;
+    width: 14px; height: 14px;
+    color: var(--accent);
+    background: var(--bg-deep);
+    display: grid; place-items: center;
+    z-index: 2;
+  }
+  @media (max-width: 900px) { .pstep-arrow { display: none; } }
+
+  /* -------- PROJECTS -------- */
+  .projects { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .projects { grid-template-columns: 1fr; } }
+  .project {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .project:hover { transform: translateY(-3px); border-color: var(--accent); }
+  .project-media {
+    aspect-ratio: 16/10;
+    background: var(--bg-deep);
+    position: relative;
+    overflow: hidden;
+  }
+  .project-body {
+    padding: 24px 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 16px;
+  }
+  .project-body h3 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .project-body .sub {
+    font-size: 12.5px;
+    color: var(--ink-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .project-body .ext {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    transition: all .15s;
+  }
+  .project:hover .ext { background: var(--accent); color: #fff; border-color: var(--accent); transform: rotate(-45deg); }
+
+  /* project mock-ups */
+  .mock-living {
+    position: absolute; inset: 24px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    overflow: hidden;
+  }
+  .mock-living::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(255,122,74,0.3), transparent 50%),
+                linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.6));
+  }
+  .mock-tag {
+    position: absolute; top: 12px; right: 12px;
+    padding: 4px 10px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 4px;
+  }
+  .mock-h {
+    position: absolute; left: 20px; bottom: 20px; right: 80px;
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(18px, 2.4vw, 30px);
+    line-height: 1;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .mock-desc {
+    position: absolute; right: 16px; bottom: 16px;
+    max-width: 180px;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.92);
+    border-radius: 6px;
+    font-size: 9.5px;
+    color: var(--ink-2);
+    line-height: 1.4;
+  }
+  .mock-solution {
+    position: absolute; inset: 0;
+    background: #fff;
+    padding: 20px 24px;
+  }
+  .mock-solution .hdr { display: flex; justify-content: space-between; font-size: 9px; letter-spacing: 0.1em; color: var(--ink-3); text-transform: uppercase; }
+  .mock-solution .big {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(22px, 3vw, 36px);
+    line-height: 0.98;
+    color: var(--ink);
+    text-transform: uppercase;
+    margin-top: 18px;
+    letter-spacing: -0.02em;
+  }
+  .mock-solution .stats {
+    position: absolute; bottom: 20px; left: 24px; right: 24px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .mock-solution .stats .v { font-family: var(--display); font-weight: 800; font-size: clamp(14px, 1.8vw, 20px); color: var(--ink); letter-spacing: -0.01em; }
+  .mock-solution .stats .k { font-size: 8px; color: var(--ink-3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+  .mock-solution .photo {
+    position: absolute; top: 20px; right: 24px;
+    width: 90px; height: 90px;
+    background: linear-gradient(135deg, #888, #444);
+    border-radius: 8px;
+  }
+
+  /* -------- AGENCY STATEMENT (dark) -------- */
+  .statement {
+    padding: 96px 0;
+    background: var(--bg-deep);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .statement::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 80% 50%, rgba(255,74,28,0.12), transparent 60%),
+      radial-gradient(ellipse at 20% 20%, rgba(255,122,74,0.06), transparent 50%);
+    pointer-events: none;
+  }
+  .statement .inner { position: relative; z-index: 2; }
+  .statement .k { font-size: 12px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+  .statement .k::before { content: "// "; }
+  .statement h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(32px, 4.6vw, 56px);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: #fff;
+    text-transform: uppercase;
+    max-width: 22ch;
+    margin-bottom: 28px;
+  }
+  .statement h2 .hi { color: var(--accent); font-style: italic; font-family: 'Archivo', serif; }
+  .statement-row {
+    display: grid; grid-template-columns: 1.3fr 1fr;
+    gap: 48px; align-items: end;
+  }
+  @media (max-width: 900px) { .statement-row { grid-template-columns: 1fr; } }
+  .statement p { color: #B0B0AC; font-size: 15px; line-height: 1.6; max-width: 48ch; }
+
+  /* colored tiles */
+  .brand-tiles {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 900px) { .brand-tiles { grid-template-columns: 1fr 1fr; } }
+  .tile {
+    border-radius: 14px;
+    aspect-ratio: 1;
+    padding: 20px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
+    color: #fff;
+  }
+  .tile-1 { background: linear-gradient(135deg, #FF7A4A, #FF4A1C); }
+  .tile-2 { background: linear-gradient(135deg, #FF4A1C, #C73A14); }
+  .tile-3 { background: linear-gradient(135deg, #fff, #F0EBE0); color: var(--ink); }
+  .tile-4 { background: linear-gradient(135deg, #FF4A1C, #A0290C); }
+  .tile .t { font-family: var(--display); font-weight: 800; font-size: 14px; letter-spacing: 0.02em; text-transform: uppercase; }
+  .tile .glyph {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(36px, 6vw, 80px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+  }
+  .tile-3 .glyph { color: var(--accent); }
+  .tile .small { font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; }
+
+  /* -------- SPECIALIZATION ACCORDION -------- */
+  .spec-list {
+    display: flex; flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+  .spec-row {
+    border-bottom: 1px solid var(--line);
+    transition: background .15s;
+  }
+  .spec-row .spec-btn {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 60px 1fr 40px 40px;
+    gap: 20px;
+    align-items: center;
+    padding: 26px 20px;
+    text-align: left;
+  }
+  .spec-row .n { font-family: var(--display); font-weight: 700; color: var(--ink-3); font-size: 13px; }
+  .spec-row .t {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+  }
+  .spec-row .plus {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    display: grid; place-items: center;
+    color: var(--ink);
+    font-size: 16px;
+    transition: all .2s;
+  }
+  .spec-row.open { background: var(--ink); color: #fff; }
+  .spec-row.open .t { color: #fff; }
+  .spec-row.open .n { color: var(--accent); }
+  .spec-row.open .plus { background: var(--accent); border-color: var(--accent); color: #fff; transform: rotate(45deg); }
+  .spec-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s;
+  }
+  .spec-row.open .spec-body { max-height: 300px; }
+  .spec-body-inner {
+    padding: 8px 20px 28px;
+    display: grid; grid-template-columns: 60px 1fr 200px 40px 40px;
+    gap: 20px;
+    align-items: center;
+  }
+  .spec-body-inner p {
+    color: #D6D4CC;
+    font-size: 14px;
+    line-height: 1.55;
+    grid-column: 3 / 4;
+  }
+  .spec-body-inner .illus {
+    grid-column: 2 / 3;
+    height: 80px;
+    background: var(--line-dark);
+    border-radius: 8px;
+    display: grid; place-items: center;
+    color: var(--accent);
+    font-family: var(--display);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 720px) {
+    .spec-row .spec-btn { grid-template-columns: 40px 1fr 36px; gap: 14px; padding: 22px 16px; }
+    .spec-row .spec-btn > .plus:first-of-type { display: none; }
+    .spec-body-inner { grid-template-columns: 40px 1fr; gap: 14px; padding: 4px 16px 24px; }
+    .spec-body-inner p { grid-column: 2; }
+    .spec-body-inner .illus { grid-column: 2; }
+  }
+
+  /* -------- TESTIMONIAL -------- */
+  .testi {
+    padding: 56px 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  @media (max-width: 720px) { .testi { grid-template-columns: 1fr; } }
+  .testi-avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #B09480, #6F5944);
+    display: grid; place-items: center;
+    color: #fff;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 20px;
+  }
+  .testi-name { font-weight: 600; font-size: 15px; color: var(--ink); margin-top: 12px; }
+  .testi-role { font-size: 12.5px; color: var(--ink-3); }
+  .testi p {
+    font-size: 16px;
+    color: var(--ink-2);
+    line-height: 1.55;
+    max-width: 60ch;
+  }
+  .testi p::before { content: "\201C"; color: var(--accent); font-family: var(--display); font-size: 28px; font-weight: 800; vertical-align: -4px; margin-right: 6px; }
+
+  /* -------- CTA BAR -------- */
+  .cta-bar {
+    background: var(--bg-deep);
+    color: #fff;
+    padding: 72px 0;
+    margin-top: 48px;
+    border-radius: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-bar .inner {
+    display: grid; grid-template-columns: 1.3fr auto;
+    gap: 40px; align-items: center;
+    padding: 0 56px;
+  }
+  @media (max-width: 900px) { .cta-bar .inner { grid-template-columns: 1fr; padding: 0 32px; } }
+  .cta-bar h3 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(28px, 3.6vw, 44px);
+    line-height: 1.02;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+  .cta-bar h3 em { font-style: italic; color: var(--accent); font-family: 'Archivo', serif; }
+  .cta-bar .foot-meta {
+    margin: 32px 56px 0;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-dark);
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-size: 12.5px;
+    color: #8A8A85;
+    letter-spacing: 0.04em;
+  }
+  .cta-bar .foot-meta a:hover { color: var(--accent); }
+  .cta-bar .foot-meta .links { display: flex; gap: 24px; }
+  @media (max-width: 720px) { .cta-bar .foot-meta { margin: 32px 32px 0; } }
+
+  /* -------- FOOTER WORDMARK -------- */
+  .wordmark {
+    padding: 40px 0 24px;
+    text-align: center;
+  }
+  .wordmark .w {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: clamp(80px, 20vw, 300px);
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .wordmark .w em { font-style: italic; color: var(--accent); font-family: 'Archivo', serif; }
+</style>
+</head>
+<body>
+
+  <nav class="top">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="Galryx home">
+        <span class="galryx-logo size-nav">
+          <span class="gbox"><span class="g">G</span></span>
+          <span class="word">ALRY<span class="x">X</span></span>
+        </span>
+      </a>
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+      </div>
+      <a href="#contact" class="nav-cta">
+        Contact
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <section id="top" class="hero">
+    <div class="container" style="position: relative;">
+      <div class="scroll-rail">Scroll down</div>
+      <div class="hero-top">
+        <h1 class="hero-title">
+          <span class="line">WE BRING YOUR</span>
+          <span class="line">IDEAS <em>to</em> LIFE.</span>
+        </h1>
+        <div class="hero-right">
+          <a href="#contact" class="rbtn">
+            <span class="circle">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+            Let's talk now
+          </a>
+          <p class="hero-sub">
+            <b>You dream, we build.</b> Galryx is a full-service IT studio — we design, develop, secure, host, and maintain the software that runs your business.
+          </p>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="glow">
+          <button class="play-btn" title="Watch reel">Play</button>
+        </div>
+        <div class="hero-visual-meta">
+          <span><span class="dot"></span>Showreel 2026</span>
+          <span>02:14</span>
+        </div>
+        <div class="hero-visual-meta-right">GALRYX/STUDIO</div>
+      </div>
+
+      <div class="logos">
+        <div class="logo-item">
+          <span class="mk"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 4h6v16H4zM14 4h6v8h-6z"/></svg></span>
+          <span class="text">PAPERZ<span class="sub">Leading Paper Company</span></span>
+        </div>
+        <div class="logo-item italic">
+          <span class="text">Dorfus<span class="sub">Culture of your life</span></span>
+        </div>
+        <div class="logo-item">
+          <span class="mk"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M4 20 L4 4 L8 10 L12 4 L12 20 Z"/></svg></span>
+          <span class="text">Martino<span class="sub">Gallery of your life</span></span>
+        </div>
+        <div class="logo-item">
+          <span class="mk"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4"><rect x="4" y="4" width="16" height="16"/></svg></span>
+          <span class="text">square<span class="sub">Real Estate Solution</span></span>
+        </div>
+        <div class="logo-item">
+          <span class="mk"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M5 18 L10 5 L13 12 L17 5 L19 18 Z"/></svg></span>
+          <span class="text">Gobona<span class="sub">Your Brand Center</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="who" class="block" style="padding-top: 120px; padding-bottom: 48px;">
+    <div class="container">
+      <div class="block-head">
+        <div>
+          <div class="block-kicker">Who we are</div>
+          <h2 class="block-title">A team of experts — <em class="ital-accent">five disciplines,</em> one studio.</h2>
+        </div>
+      </div>
+
+      <div class="who-grid">
+        <p class="who-lede">
+          Galryx is a team of specialists in <b>design, development, cloud solutions, cybersecurity, and artificial intelligence</b>. We don't just build your idea — <em class="ital-accent" style="font-weight: 700;">we improve it.</em>
+        </p>
+        <div class="who-list">
+          <div class="who-row"><span class="n">01</span><span class="t">Design</span><span class="d">Brand systems, UI, UX</span></div>
+          <div class="who-row"><span class="n">02</span><span class="t">Development</span><span class="d">Web, SaaS, mobile</span></div>
+          <div class="who-row"><span class="n">03</span><span class="t">Cloud Solutions</span><span class="d">Azure, AWS, GCP</span></div>
+          <div class="who-row"><span class="n">04</span><span class="t">Cybersecurity</span><span class="d">Audits, pen-testing</span></div>
+          <div class="who-row"><span class="n">05</span><span class="t">Artificial Intelligence</span><span class="d">LLMs, RAG, agents</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="process" class="process-section">
+    <div class="container">
+      <div class="process-head">
+        <div class="block-kicker">Our process</div>
+        <h2 class="block-title">We take care of your site <em class="ital-accent">so you can</em> take care of your business.</h2>
+      </div>
+      <div class="process-grid">
+        <div class="pstep">
+          <div class="pstep-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5 19 19M5 19l2.5-2.5M16.5 7.5 19 5"/></svg>
+          </div>
+          <div class="n">01</div>
+          <h4>Design</h4>
+          <p>We sketch, wireframe, and craft interfaces that look right and feel natural to use.</p>
+          <div class="pstep-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+        <div class="pstep">
+          <div class="pstep-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <div class="n">02</div>
+          <h4>Development</h4>
+          <p>Clean, fast code. Modern stacks, tested and documented — not a tangle of hacks.</p>
+          <div class="pstep-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+        <div class="pstep">
+          <div class="pstep-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z"/><path d="M9 12l2 2 4-4"/></svg>
+          </div>
+          <div class="n">03</div>
+          <h4>Securing</h4>
+          <p>Penetration testing and hardening. We break it first, so attackers can't.</p>
+          <div class="pstep-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+        <div class="pstep">
+          <div class="pstep-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+          </div>
+          <div class="n">04</div>
+          <h4>Hosting</h4>
+          <p>Production-grade cloud setup with monitoring, backups, and 99.9% uptime.</p>
+          <div class="pstep-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+        <div class="pstep">
+          <div class="pstep-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l4 4-10 10H4v-4z"/><path d="M13 7l4 4"/></svg>
+          </div>
+          <div class="n">05</div>
+          <h4>Maintenance</h4>
+          <p>Updates, fixes, and improvements on an ongoing basis — so you focus on your business.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="block">
+    <div class="container">
+      <div class="block-head">
+        <div>
+          <div class="block-kicker">Our projects</div>
+          <h2 class="block-title">Work we're <em class="ital-accent">proud of</em>.</h2>
+        </div>
+        <div class="block-arrows">
+          <button class="arrow-btn" aria-label="Previous">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(180deg);"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <button class="arrow-btn" aria-label="Next">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="projects">
+        <article class="project">
+          <div class="project-media">
+            <div class="mock-living">
+              <div class="mock-tag">Real Estate</div>
+              <div class="mock-h">The future of home living</div>
+              <div class="mock-desc">
+                Kontako is committed to providing the best services in meeting your property needs for your future.
+              </div>
+            </div>
+          </div>
+          <div class="project-body">
+            <div>
+              <h3>KONTAKO</h3>
+              <div class="sub">Real Estate · 2025</div>
+            </div>
+            <div class="ext">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-45deg);"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </article>
+        <article class="project">
+          <div class="project-media">
+            <div class="mock-solution">
+              <div class="hdr"><span>ROOLLAND</span><span>CASE STUDY</span></div>
+              <div class="big">Problem<br/>Solution</div>
+              <div class="photo"></div>
+              <div class="stats">
+                <div><div class="v">284</div><div class="k">Clients</div></div>
+                <div><div class="v">84%</div><div class="k">Retention</div></div>
+                <div><div class="v">$28B</div><div class="k">Managed</div></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-body">
+            <div>
+              <h3>ROOLLAND</h3>
+              <div class="sub">Consulting · 2025</div>
+            </div>
+            <div class="ext">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform: rotate(-45deg);"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="statement">
+    <div class="container inner">
+      <div class="k">The studio</div>
+      <div class="statement-row">
+        <h2>
+          GALRYX IS A FULL-SERVICE IT STUDIO <span class="hi">that breathes life</span> INTO IDEAS AND TURNS THEM INTO SOFTWARE THAT SHIPS.
+        </h2>
+        <div>
+          <p>Two partners, one bench. We handle design, development, security, hosting, and maintenance under one roof — so you work with one team from sketch to production, and for every release after.</p>
+          <div style="margin-top: 28px;">
+            <a href="#contact" class="rbtn light">
+              <span class="circle">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </span>
+              Let's talk now
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-tiles">
+        <div class="tile tile-1">
+          <div class="t">DESIGN</div>
+          <div class="glyph">Aa</div>
+          <div class="small">Brand · UI · UX</div>
+        </div>
+        <div class="tile tile-2">
+          <div class="t">DEV</div>
+          <div class="glyph">&lt;/&gt;</div>
+          <div class="small">Web · SaaS · API</div>
+        </div>
+        <div class="tile tile-3">
+          <div class="t">SECURE</div>
+          <div class="glyph">&#9670;</div>
+          <div class="small">Pen-test · Audits</div>
+        </div>
+        <div class="tile tile-4">
+          <div class="t">HOST</div>
+          <div class="glyph">&#9650;</div>
+          <div class="small">Cloud · 99.9% SLA</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="block" style="padding-top: 48px;">
+    <div class="container">
+      <div class="block-head">
+        <div>
+          <div class="block-kicker">Our services</div>
+          <h2 class="block-title">Our area of <em class="ital-accent">specialization</em>.</h2>
+        </div>
+      </div>
+      <div class="spec-list" id="spec-list">
+        <div class="spec-row" data-spec data-desc="Identity systems that hold up across web, print, and product. Logos, typography, color, guidelines.">
+          <button class="spec-btn" type="button">
+            <span class="n">01</span>
+            <span class="t">Logo &amp; Branding</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">LOGO &amp; BRANDING</div>
+            <p>Identity systems that hold up across web, print, and product. Logos, typography, color, guidelines.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+        <div class="spec-row open" data-spec>
+          <button class="spec-btn" type="button">
+            <span class="n">02</span>
+            <span class="t">Web Design</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">WEB DESIGN</div>
+            <p>With our commitment to creativity, innovation, and order, we work closely with you to produce a website that fits your unique needs and vision.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+        <div class="spec-row" data-spec>
+          <button class="spec-btn" type="button">
+            <span class="n">03</span>
+            <span class="t">Web Development</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">WEB DEVELOPMENT</div>
+            <p>Modern stacks — Next.js, React, Node — built fast by default and documented for your team to extend.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+        <div class="spec-row" data-spec>
+          <button class="spec-btn" type="button">
+            <span class="n">04</span>
+            <span class="t">Cybersecurity</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">CYBERSECURITY</div>
+            <p>Penetration testing, hardening, and compliance. ISO 27001, SOC 2, GDPR — we get you audit-ready.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+        <div class="spec-row" data-spec>
+          <button class="spec-btn" type="button">
+            <span class="n">05</span>
+            <span class="t">Hosting &amp; DevOps</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">HOSTING &amp; DEVOPS</div>
+            <p>Production cloud on Azure, AWS, or GCP. CI/CD, monitoring, backups, and an SLA you can lean on.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+        <div class="spec-row" data-spec>
+          <button class="spec-btn" type="button">
+            <span class="n">06</span>
+            <span class="t">Maintenance</span>
+            <span></span>
+            <span class="plus">+</span>
+          </button>
+          <div class="spec-body"><div class="spec-body-inner">
+            <span></span>
+            <div class="illus">MAINTENANCE</div>
+            <p>Monthly retainer for updates, content changes, security patches, and ongoing improvements.</p>
+            <span></span><span></span>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="testi">
+        <div class="testi-avatar">MR</div>
+        <div>
+          <p>This is the team we were with when we wanted to start something exciting for our brand. The team is adaptable and quick to understand our vision and we are certainly going to count on them for future designs.</p>
+          <div class="testi-name">Martin Rocker</div>
+          <div class="testi-role">CEO · Kontako Real Estate</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="container">
+    <div class="cta-bar">
+      <div class="inner">
+        <h3>Collaborate with Galryx <em>and start</em> your digital journey.</h3>
+        <a href="mailto:hello@galryx.studio" class="rbtn light">
+          <span class="circle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+          Start a project
+        </a>
+      </div>
+      <div class="foot-meta">
+        <div>© 2026 Galryx Studio · Casablanca, Morocco</div>
+        <div class="links">
+          <a href="mailto:hello@galryx.studio">hello@galryx.studio</a>
+          <a href="#">Instagram</a>
+          <a href="#">LinkedIn</a>
+          <a href="#">Behance</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wordmark">
+      <div class="w">GALRYX<em>—</em>2026</div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('[data-spec]').forEach(row => {
+      row.querySelector('.spec-btn').addEventListener('click', () => {
+        const wasOpen = row.classList.contains('open');
+        document.querySelectorAll('[data-spec]').forEach(r => r.classList.remove('open'));
+        if (!wasOpen) row.classList.add('open');
+      });
+    });
+  </script>
+</body>
+</html>
