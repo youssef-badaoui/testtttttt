@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>GALRYX — Brand Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Geist:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; background: #F7F5F1; font-family: 'Geist', system-ui, sans-serif; overflow: hidden; }
+  #root { position: absolute; inset: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel">
+// ─── GALRYX palette (matches index.html) ───
+const BG      = "#F7F5F1";
+const BG_DEEP = "#0E0E0E";
+const INK     = "#141413";
+const INK2    = "#4A4A47";
+const INK3    = "#8A8A85";
+const LINE    = "#E6E2D8";
+const LINE_DK = "#272727";
+const ACCENT  = "#FF4A1C";
+const ACCENT2 = "#FF7A4A";
+
+const DISPLAY = "'Archivo', -apple-system, 'Helvetica Neue', sans-serif";
+const SANS    = "'Geist', system-ui, sans-serif";
+const MONO    = "'JetBrains Mono', ui-monospace, monospace";
+
+const ease3 = (t) => 1 - Math.pow(1 - Math.max(0, Math.min(1, t)), 3);
+const ease4 = (t) => 1 - Math.pow(1 - Math.max(0, Math.min(1, t)), 4);
+
+// ─── GALRYX logo component (orange G square + ALRYX wordmark, X in orange) ───
+function GalryxLogo({ h = 60, dark = false, progress = 1 }) {
+  // progress drives: square scales in, G fades, then wordmark slides
+  const sqP  = ease3(Math.min(1, progress / 0.35));
+  const gP   = ease3(Math.max(0, Math.min(1, (progress - 0.25) / 0.3)));
+  const wP   = ease3(Math.max(0, Math.min(1, (progress - 0.45) / 0.45)));
+  const inkC = dark ? "#F7F5F1" : INK;
+  return (
+    <span style={{display: "inline-flex", alignItems: "center", lineHeight: 1}}>
+      <span style={{
+        width: h, height: h, background: ACCENT,
+        display: "grid", placeItems: "center",
+        borderRadius: h * 0.12,
+        transform: `scale(${sqP})`,
+        transformOrigin: "center",
+        marginRight: h * 0.02,
+      }}>
+        <span style={{
+          fontFamily: DISPLAY, fontWeight: 900,
+          fontSize: h * 0.75, color: "#141413",
+          letterSpacing: "-0.04em", lineHeight: 1,
+          transform: `translateY(-2%) scale(${gP})`,
+          opacity: gP,
+        }}>G</span>
+      </span>
+      <span style={{
+        fontFamily: DISPLAY, fontWeight: 800,
+        fontSize: h * 0.7, letterSpacing: "-0.02em",
+        color: inkC, lineHeight: 1, textTransform: "uppercase",
+        overflow: "hidden",
+        display: "inline-block",
+        maxWidth: `${wP * 500}px`,
+        opacity: wP,
+        transform: `translateX(${(1 - wP) * -10}px)`,
+        whiteSpace: "nowrap",
+      }}>
+        ALRY<span style={{color: ACCENT}}>X</span>
+      </span>
+    </span>
+  );
+}
+
+// ─── Persistent chrome (top-left chapter, top-right brand tag) ───
+function Chrome({ chapter }) {
+  return (
+    <>
+      <div style={{
+        position: "absolute", top: 36, left: 56, zIndex: 10,
+        fontFamily: MONO, fontSize: 13, color: INK3, letterSpacing: "0.14em",
+        display: "flex", gap: 10, alignItems: "center",
+      }}>
+        <span style={{width: 6, height: 6, background: ACCENT, borderRadius: "50%"}}/>
+        {chapter}
+      </div>
+      <div style={{
+        position: "absolute", top: 36, right: 56, zIndex: 10,
+        fontFamily: MONO, fontSize: 13, color: INK3, letterSpacing: "0.14em",
+      }}>
+        GALRYX · STUDIO — MMXXVI
+      </div>
+    </>
+  );
+}
+
+// ─── Word-by-word reveal headline ───
+function WordReveal({ words, progress, size, color = INK, italicIdx = [], accentIdx = [], font = DISPLAY, weight = 800, maxWidth = 1600, upper = true }) {
+  const each = 1 / words.length;
+  return (
+    <div style={{
+      fontFamily: font, fontSize: size, fontWeight: weight,
+      color, lineHeight: 0.94, letterSpacing: "-0.035em",
+      textAlign: "center", textTransform: upper ? "uppercase" : "none",
+      maxWidth, margin: "0 auto",
+    }}>
+      {words.map((w, i) => {
+        const start = i * each * 0.65;
+        const p = ease3((progress - start) / (each * 1.2));
+        const italic = italicIdx.includes(i);
+        const accent = accentIdx.includes(i);
+        return (
+          <span key={i} style={{
+            display: "inline-block",
+            transform: `translateY(${(1 - p) * 32}px)`,
+            opacity: p,
+            marginRight: i < words.length - 1 ? "0.22em" : 0,
+            color: accent ? ACCENT : color,
+            fontStyle: italic ? "italic" : "normal",
+            fontFamily: italic ? "'Archivo', serif" : font,
+            willChange: "transform, opacity",
+          }}>{w}</span>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── SCENE 1: Logo build (0 → 3s) ─────────────────────────────────────
+function SceneIntro() {
+  const { progress } = useSprite();
+  const labelP = ease3(Math.max(0, (progress - 0.75) / 0.25));
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 28}}>
+      <GalryxLogo h={120} progress={progress}/>
+      <div style={{
+        fontFamily: MONO, fontSize: 16, color: INK3,
+        letterSpacing: "0.22em", textTransform: "uppercase",
+        opacity: labelP, transform: `translateY(${(1 - labelP) * 10}px)`,
+      }}>
+        FULL-SERVICE IT STUDIO
+      </div>
+    </div>
+  );
+}
+
+// ─── SCENE 2: Hero tagline (3 → 7s) ───────────────────────────────────
+// Big uppercase hero title like the site: "WE BRING YOUR / IDEAS *to* LIFE."
+function SceneHero() {
+  const { progress, localTime } = useSprite();
+  const line1 = ["WE", "BRING", "YOUR"];
+  const line2w = ["IDEAS", "to", "LIFE."];
+
+  const l1p = Math.min(1, progress / 0.45);
+  const l2p = Math.max(0, Math.min(1, (progress - 0.4) / 0.45));
+  const tagP = ease3(Math.max(0, (progress - 0.85) / 0.15));
+
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 14, padding: "0 120px"}}>
+      <div style={{
+        fontFamily: MONO, fontSize: 14, color: ACCENT,
+        letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 500,
+        marginBottom: 32,
+        opacity: ease3(Math.min(1, progress * 4)),
+      }}>
+        // SHOWREEL 2026
+      </div>
+      <WordReveal words={line1} progress={l1p} size={168} italicIdx={[]} accentIdx={[]}/>
+      <WordReveal words={line2w} progress={l2p} size={168} italicIdx={[1]} accentIdx={[1]}/>
+      <div style={{
+        marginTop: 44, display: "flex", gap: 18, alignItems: "center",
+        opacity: tagP, transform: `translateY(${(1 - tagP) * 14}px)`,
+      }}>
+        <span style={{
+          width: 54, height: 54, background: ACCENT, borderRadius: "50%",
+          display: "grid", placeItems: "center", color: "#fff", fontSize: 22,
+        }}>→</span>
+        <span style={{
+          fontFamily: SANS, fontSize: 20, fontWeight: 500, color: INK,
+          letterSpacing: "0.06em", textTransform: "uppercase",
+        }}>
+          You dream, we build.
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ─── SCENE 3: Five services accordion-style reveal (7 → 14s) ─────────
+function SceneServices() {
+  const { progress, localTime } = useSprite();
+  const headerP = ease3(Math.min(1, progress * 3));
+  const rows = [
+    { n: "01", t: "Logo & Branding",     d: "Identity systems — logo, typography, color, guidelines." },
+    { n: "02", t: "Web Design",          d: "Interfaces that look right and feel natural to use." },
+    { n: "03", t: "Web Development",     d: "Clean code on modern stacks — Next.js, React, Node." },
+    { n: "04", t: "Cybersecurity",       d: "Penetration testing, hardening, audit-ready compliance." },
+    { n: "05", t: "Hosting & DevOps",    d: "Production cloud on Azure, AWS, GCP. 99.9% SLA." },
+  ];
+
+  // one row highlights at a time, then expands; cycles through
+  const openAt = 1.0;
+  const perRow = 1.0;
+  let openIdx = -1;
+  for (let i = 0; i < rows.length; i++) {
+    const s = openAt + i * perRow;
+    if (localTime >= s && localTime < s + perRow) openIdx = i;
+  }
+
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG, padding: "120px 120px 80px", display: "flex", flexDirection: "column", gap: 44}}>
+      <div style={{transform: `translateY(${(1-headerP)*18}px)`, opacity: headerP}}>
+        <div style={{fontFamily: SANS, fontSize: 14, fontWeight: 600, color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16}}>
+          // OUR SERVICES
+        </div>
+        <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 88, lineHeight: 0.98, color: INK, letterSpacing: "-0.025em", textTransform: "uppercase"}}>
+          OUR AREA OF <span style={{fontStyle: "italic", color: ACCENT, fontFamily: "'Archivo', serif"}}>specialization</span>.
+        </div>
+      </div>
+
+      <div style={{display: "flex", flexDirection: "column", borderTop: `1px solid ${LINE}`}}>
+        {rows.map((r, i) => {
+          const rowDelay = 0.2 + i * 0.08;
+          const rowIn = ease3(Math.max(0, Math.min(1, (progress - rowDelay) / 0.35)));
+          const open = openIdx === i;
+          return (
+            <div key={i} style={{
+              borderBottom: `1px solid ${LINE}`,
+              background: open ? INK : "transparent",
+              color: open ? "#fff" : INK,
+              transition: "background 300ms, color 300ms",
+              opacity: rowIn,
+              transform: `translateY(${(1 - rowIn) * 20}px)`,
+              overflow: "hidden",
+            }}>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "80px 1fr 60px",
+                gap: 24, alignItems: "center",
+                padding: "28px 24px",
+              }}>
+                <span style={{fontFamily: DISPLAY, fontWeight: 700, fontSize: 15, color: open ? ACCENT : INK3}}>{r.n}</span>
+                <span style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 34, textTransform: "uppercase", letterSpacing: "-0.01em"}}>{r.t}</span>
+                <span style={{
+                  width: 44, height: 44, borderRadius: "50%",
+                  border: open ? "none" : `1px solid ${LINE}`,
+                  background: open ? ACCENT : "transparent",
+                  color: open ? "#fff" : INK,
+                  display: "grid", placeItems: "center", fontSize: 22,
+                  transform: open ? "rotate(45deg)" : "rotate(0)",
+                  transition: "transform 300ms",
+                  justifySelf: "end",
+                }}>+</span>
+              </div>
+              <div style={{
+                maxHeight: open ? 120 : 0,
+                transition: "max-height 400ms cubic-bezier(0.4,0,0.2,1)",
+                overflow: "hidden",
+              }}>
+                <div style={{
+                  padding: "0 24px 28px",
+                  display: "grid", gridTemplateColumns: "80px 1fr",
+                  gap: 24,
+                  fontSize: 18, color: open ? "#D6D4CC" : INK2, lineHeight: 1.55,
+                }}>
+                  <span/>
+                  <div>{r.d}</div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── SCENE 4: Process 5 steps horizontal, dark bg (14 → 19s) ─────────
+function SceneProcess() {
+  const { progress, localTime } = useSprite();
+  const headP = ease3(Math.min(1, progress * 3));
+  const steps = [
+    { n: "01", t: "DESIGN",        d: "Sketch, wireframe, craft interfaces that feel natural." },
+    { n: "02", t: "DEVELOPMENT",   d: "Clean, fast code. Tested, documented, built to last." },
+    { n: "03", t: "SECURING",      d: "Pen-testing and hardening. We break it first." },
+    { n: "04", t: "HOSTING",       d: "Production cloud with monitoring, backups, 99.9% uptime." },
+    { n: "05", t: "MAINTENANCE",   d: "Ongoing updates, fixes, improvements — so you can focus." },
+  ];
+
+  const iconPaths = [
+    // Design — sun/grid
+    <g><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.8"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5 19 19M5 19l2.5-2.5M16.5 7.5 19 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></g>,
+    // Dev — arrows
+    <g><polyline points="16 18 22 12 16 6" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/><polyline points="8 6 2 12 8 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></g>,
+    // Security — shield
+    <g><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/></g>,
+    // Hosting — server/cylinders
+    <g><ellipse cx="12" cy="6" rx="8" ry="3" fill="none" stroke="currentColor" strokeWidth="1.8"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6" fill="none" stroke="currentColor" strokeWidth="1.8"/><path d="M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" fill="none" stroke="currentColor" strokeWidth="1.8"/></g>,
+    // Maintenance — wrench/pencil
+    <g><path d="M14 6l4 4-10 10H4v-4z" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round"/><path d="M13 7l4 4" fill="none" stroke="currentColor" strokeWidth="1.8"/></g>,
+  ];
+
+  // progress line fills as scene plays
+  const lineP = Math.max(0, Math.min(1, (localTime - 0.8) / 3.5));
+
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG_DEEP, color: "#fff", padding: "120px 120px 80px", display: "flex", flexDirection: "column", gap: 56}}>
+      <div style={{transform: `translateY(${(1-headP)*18}px)`, opacity: headP}}>
+        <div style={{fontFamily: SANS, fontSize: 14, fontWeight: 600, color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16}}>
+          // OUR PROCESS
+        </div>
+        <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 80, lineHeight: 1.0, color: "#fff", letterSpacing: "-0.025em", textTransform: "uppercase", maxWidth: 1400}}>
+          WE TAKE CARE OF YOUR SITE <span style={{fontStyle: "italic", color: ACCENT, fontFamily: "'Archivo', serif"}}>so you can</span> TAKE CARE OF YOUR BUSINESS.
+        </div>
+      </div>
+
+      <div style={{position: "relative", borderTop: `1px solid ${LINE_DK}`, flex: 1}}>
+        <div style={{position: "absolute", top: -1, left: 0, height: 3, width: `${lineP * 100}%`, background: ACCENT, transition: "width 100ms linear"}}/>
+        <div style={{display: "grid", gridTemplateColumns: "repeat(5, 1fr)", height: "100%"}}>
+          {steps.map((s, i) => {
+            const delay = 0.35 + i * 0.18;
+            const p = ease3(Math.max(0, Math.min(1, (localTime - delay) / 0.45)));
+            return (
+              <div key={i} style={{
+                padding: i === 0 ? "36px 28px 36px 0" : "36px 28px",
+                borderRight: i < 4 ? `1px solid ${LINE_DK}` : "none",
+                display: "flex", flexDirection: "column", gap: 16,
+                transform: `translateY(${(1-p)*28}px)`,
+                opacity: p,
+                position: "relative",
+              }}>
+                <div style={{
+                  width: 52, height: 52, borderRadius: 12,
+                  border: `1px solid ${LINE_DK}`,
+                  display: "grid", placeItems: "center",
+                  color: ACCENT,
+                }}>
+                  <svg width="22" height="22" viewBox="0 0 24 24">{iconPaths[i]}</svg>
+                </div>
+                <div style={{fontFamily: DISPLAY, fontWeight: 700, fontSize: 13, color: ACCENT, letterSpacing: "0.06em"}}>{s.n}</div>
+                <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 26, lineHeight: 1.05, letterSpacing: "-0.01em", textTransform: "uppercase", color: "#fff"}}>{s.t}</div>
+                <div style={{fontSize: 15, color: "#B0B0AC", lineHeight: 1.5}}>{s.d}</div>
+                {/* arrow between */}
+                {i < 4 && (
+                  <div style={{position: "absolute", right: -8, top: 46, width: 16, height: 16, background: BG_DEEP, display: "grid", placeItems: "center", color: ACCENT, opacity: p}}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── SCENE 5: Stats/promise (19 → 22.5s) — ivory, 4 colored tiles ───
+function SceneTiles() {
+  const { progress, localTime } = useSprite();
+  const headP = ease3(Math.min(1, progress * 3));
+  const tiles = [
+    { t: "DESIGN",  glyph: "Aa",    sub: "Brand · UI · UX",    bg: `linear-gradient(135deg, ${ACCENT2}, ${ACCENT})`, ink: "#fff" },
+    { t: "DEV",     glyph: "</>",   sub: "Web · SaaS · API",   bg: `linear-gradient(135deg, ${ACCENT}, #C73A14)`,   ink: "#fff" },
+    { t: "SECURE",  glyph: "◆",     sub: "Pen-test · Audits",  bg: `linear-gradient(135deg, #FFFFFF, #F0EBE0)`,     ink: INK, accentGlyph: true },
+    { t: "HOST",    glyph: "▲",     sub: "Cloud · 99.9% SLA",  bg: `linear-gradient(135deg, ${ACCENT}, #A0290C)`,   ink: "#fff" },
+  ];
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG_DEEP, color: "#fff", padding: "120px 120px", display: "flex", flexDirection: "column", gap: 48}}>
+      <div style={{transform: `translateY(${(1-headP)*18}px)`, opacity: headP, display: "grid", gridTemplateColumns: "1.3fr 1fr", gap: 48, alignItems: "end"}}>
+        <div>
+          <div style={{fontFamily: SANS, fontSize: 14, fontWeight: 600, color: ACCENT, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 16}}>// THE STUDIO</div>
+          <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 64, lineHeight: 1.05, color: "#fff", letterSpacing: "-0.025em", textTransform: "uppercase"}}>
+            Two partners. <span style={{fontStyle: "italic", color: ACCENT, fontFamily: "'Archivo', serif"}}>One bench.</span>
+          </div>
+        </div>
+        <p style={{fontSize: 18, color: "#B0B0AC", lineHeight: 1.55, maxWidth: "42ch"}}>
+          Design, development, security, hosting, and maintenance — one team, sketch to production, and every release after.
+        </p>
+      </div>
+
+      <div style={{display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20, flex: 1}}>
+        {tiles.map((tl, i) => {
+          const delay = 0.3 + i * 0.15;
+          const p = ease3(Math.max(0, Math.min(1, (localTime - delay) / 0.45)));
+          return (
+            <div key={i} style={{
+              borderRadius: 16, padding: 28,
+              background: tl.bg, color: tl.ink,
+              display: "flex", flexDirection: "column", justifyContent: "space-between",
+              transform: `translateY(${(1-p)*40}px) scale(${0.95 + p*0.05})`,
+              opacity: p,
+            }}>
+              <div style={{fontFamily: DISPLAY, fontWeight: 800, fontSize: 15, letterSpacing: "0.04em", textTransform: "uppercase"}}>{tl.t}</div>
+              <div style={{
+                fontFamily: DISPLAY, fontWeight: 900,
+                fontSize: 120, lineHeight: 0.88, letterSpacing: "-0.04em",
+                color: tl.accentGlyph ? ACCENT : tl.ink,
+              }}>{tl.glyph}</div>
+              <div style={{fontFamily: SANS, fontSize: 12, letterSpacing: "0.06em", textTransform: "uppercase", opacity: 0.85}}>{tl.sub}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── SCENE 6: Closing CTA (22.5 → 27s) ────────────────────────────────
+function SceneCTA() {
+  const { progress } = useSprite();
+  const e1 = ease3(Math.min(1, progress * 2.5));
+  const e2 = ease3(Math.max(0, Math.min(1, (progress - 0.25) / 0.4)));
+  const e3 = ease3(Math.max(0, Math.min(1, (progress - 0.55) / 0.3)));
+  const e4 = ease3(Math.max(0, Math.min(1, (progress - 0.75) / 0.25)));
+
+  return (
+    <div style={{position: "absolute", inset: 0, background: BG, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 40}}>
+      <div style={{opacity: e1, transform: `translateY(${(1-e1)*20}px)`}}>
+        <GalryxLogo h={72} progress={1}/>
+      </div>
+
+      <div style={{
+        fontFamily: DISPLAY, fontWeight: 800,
+        fontSize: 140, lineHeight: 0.92,
+        color: INK, letterSpacing: "-0.035em",
+        textTransform: "uppercase",
+        textAlign: "center", maxWidth: 1500,
+        opacity: e2, transform: `translateY(${(1-e2)*30}px)`,
+      }}>
+        LET'S <span style={{fontStyle: "italic", color: ACCENT, fontFamily: "'Archivo', serif"}}>talk</span> NOW.
+      </div>
+
+      <div style={{
+        display: "flex", gap: 14, alignItems: "center",
+        padding: "10px 10px 10px 10px",
+        opacity: e3, transform: `translateY(${(1-e3)*20}px)`,
+      }}>
+        <span style={{
+          width: 54, height: 54, borderRadius: "50%", background: ACCENT,
+          display: "grid", placeItems: "center", color: "#fff", fontSize: 22,
+        }}>→</span>
+        <span style={{
+          fontFamily: SANS, fontSize: 18, fontWeight: 600,
+          color: INK, letterSpacing: "0.14em", textTransform: "uppercase",
+          paddingRight: 24,
+        }}>
+          Start a project
+        </span>
+      </div>
+
+      <div style={{
+        display: "flex", gap: 40, alignItems: "center",
+        fontFamily: MONO, fontSize: 16, color: INK3,
+        letterSpacing: "0.08em",
+        opacity: e4,
+        marginTop: 20,
+      }}>
+        <span>hello@galryx.studio</span>
+        <span style={{width: 4, height: 4, background: ACCENT, borderRadius: "50%"}}/>
+        <span>YOU DREAM · WE BUILD</span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Timeline ─────────────────────────────────────────────────────────
+function Film() {
+  const t = useTime();
+  let chapter = "00 · INTRO";
+  if (t >= 3 && t < 7)   chapter = "01 · SHOWREEL";
+  else if (t >= 7 && t < 14)  chapter = "02 · SERVICES";
+  else if (t >= 14 && t < 19) chapter = "03 · PROCESS";
+  else if (t >= 19 && t < 22.5) chapter = "04 · THE STUDIO";
+  else if (t >= 22.5) chapter = "05 · GET IN TOUCH";
+
+  return (
+    <>
+      <Sprite start={0}    end={3}   ><SceneIntro/></Sprite>
+      <Sprite start={3}    end={7}   ><SceneHero/></Sprite>
+      <Sprite start={7}    end={14}  ><SceneServices/></Sprite>
+      <Sprite start={14}   end={19}  ><SceneProcess/></Sprite>
+      <Sprite start={19}   end={22.5}><SceneTiles/></Sprite>
+      <Sprite start={22.5} end={27}  ><SceneCTA/></Sprite>
+
+      <Chrome chapter={chapter}/>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Stage width={1920} height={1080} duration={27} background={BG} persistKey="galryx-film">
+      <Film/>
+    </Stage>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
